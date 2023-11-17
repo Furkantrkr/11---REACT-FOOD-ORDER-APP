@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './Meals.module.css';
+import MealItem from '../MealItem/MealItems';
 
 export default function Meals() {
   const [loadedMeals, setLoadedMeals] = useState([]);
@@ -23,7 +24,7 @@ export default function Meals() {
     <>
       <ul id={styles.meals}>
         {loadedMeals.map((meal) => (
-          <li key={meal.id}>{meal.name}</li>
+          <MealItem key={meal.id} meal={meal} />
         ))}
       </ul>
     </>
