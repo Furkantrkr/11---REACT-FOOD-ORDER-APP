@@ -34,7 +34,9 @@ export default function Cart() {
       </p>
       <p className={styles['modal-actions']}>
         <Button onClick={userProgressCtx.hideCart}>Close</Button>
-        <Button onClick={userProgressCtx.showCheckout}>Go to Checkout</Button>
+        {items.length > 0 && (
+          <Button onClick={userProgressCtx.showCheckout}>Go to Checkout</Button>
+        )}
       </p>
     </Modal>
   );
