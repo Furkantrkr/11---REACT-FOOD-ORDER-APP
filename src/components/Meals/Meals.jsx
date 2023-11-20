@@ -11,8 +11,6 @@ const requestConfig = {
 };
 
 export default function Meals() {
-  // const [loadedMeals, setLoadedMeals] = useState([]);
-
   const {
     data: loadedMeals,
     isLoading,
