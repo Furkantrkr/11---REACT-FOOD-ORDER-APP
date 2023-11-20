@@ -1,6 +1,7 @@
 import styles from './Meals.module.css';
 import MealItem from '../MealItem/MealItems';
 import useHttp from '../../hooks/useHttp';
+import Error from '../Error/Error';
 
 const requestConfig = {
   method: 'GET',
@@ -20,6 +21,10 @@ export default function Meals() {
 
   if (isLoading) {
     return <p>Fetching meals...</p>;
+  }
+
+  if (error) {
+    return <Error title="Failed to fetch meals" message={error} />;
   }
 
   return (
