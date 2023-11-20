@@ -16,14 +16,40 @@ export default function Checkout() {
     0
   );
 
-  const fd = new FormData();
+  function handleClose() {
+    userProgressCtx.hideCheckout();
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const fd = new FormData(event.target);
+    const customerData = Object.fromEntries(fd.entries()); // {email: test@example.com, ...}
+
+    async function sendOrders(order) {
+      const response = await fetch('http://localhost:3000/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          order: {
+            items: cartCtx.items,
+            customer: customerData,
+          },
+        }),
+      });
+    }
+
+    sendOrders(customerData);
+  }
 
   return (
-    <Modal open={userProgressCtx.progress === 'checkout'}>
-      <form action="">
+    <Modal open={userProgressCtx.progress === 'checkout'} onClose={handleClose}>
+      <form onSubmit={handleSubmit}>
         <h2>Checkout</h2>
         <p>Total Amount: {currencyFormatter.format(cartTotal)}</p>
-        <Input label="Full Name" type="text" id="full-name" />
+        <Input label="Full Name" type="text" id="name" />
         <Input label="Email Adress" type="email" id="email" />
         <Input label="street" type="text" id="street" />
         <div className={styles['control-row']}>
@@ -31,7 +57,7 @@ export default function Checkout() {
           <Input label="City" type="text" id="city" />
         </div>
         <p className={styles['modal-actions']}>
-          <Button onClick={userProgressCtx.hideCheckout} type="button" textOnly>
+          <Button onClick={handleClose} type="button" textOnly>
             Close
           </Button>
           <Button>Submit Order</Button>
